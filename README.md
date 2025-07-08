@@ -57,8 +57,7 @@ For this binary classification task with a potential class imbalance (Pneumonia 
 
 
 ## Results and Insights
-(Copy and paste your final evaluation results here)
---- Model Evaluation Results on Test Set ---
+
 Test Loss: 0.3168
 Test Accuracy (Keras): 0.8718
 Test AUC (Keras): 0.8555
