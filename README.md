@@ -19,9 +19,12 @@ This project leverages transfer learning with Google's Inception-V3 architecture
 ## How to Reproduce
   **Clone the repository:**
     ```bash
-    git clone [https://github.com//Pneumonia_Detection_InceptionV3.git](https://github.com/owaishcu/Pneumonia_Detection_InceptionV3.git)
+    git clone
+    [https://github.com//Pneumonia_Detection_InceptionV3.git](https://github.com/owaishcu/Pneumonia_Detection_InceptionV3.git)
+    
     cd Pneumonia_Detection_InceptionV3
     ```
+    
   **Set up Python Environment:**
     ```bash
     python -m venv venv
