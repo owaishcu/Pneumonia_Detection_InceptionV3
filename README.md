@@ -30,7 +30,7 @@ This project leverages transfer learning with Google's Inception-V3 architecture
     ```
 
 
-## Hyper-parameter Choices
+## Hyper-parameter Choices and their Justification
 * **Base Model:** Inception-V3 (pre-trained on ImageNet)
 * **Input Image Size:** 299x299x3
 * **Optimizer:** Adam
@@ -41,6 +41,35 @@ This project leverages transfer learning with Google's Inception-V3 architecture
 * **Dropout Rate:** 0.5
 * **Regularization:** Dropout (rate=0.5). No L1/L2 regularization used.
 * **Class Imbalance Handling:** Class weighting based on training set distribution.
+* **Justification for Hyperparameter Choices**
+* 1.	Base Model: Inception-V3 (pre-trained on ImageNet)
+o	Justification:
+	Transfer Learning: For medical imaging tasks with relatively small datasets (like PneumoniaMNIST), training a deep CNN from scratch is difficult and highly prone to overfitting due to the large number of parameters. Using a model pre-trained on a massive, diverse dataset like ImageNet allows us to leverage features learned from millions of general images (e.g., edges, textures, patterns) that are often transferable to new domains.
+	Inception-V3 Choice: Inception-V3 is a powerful and widely-used architecture known for its good balance between computational efficiency and accuracy. Its "inception modules" allow it to learn multi-scale features, which can be beneficial for various image patterns, including those in X-rays.
+2.	Input Image Size: 299x299x3
+o	Justification: This specific size is dictated by the pre-trained Inception-V3 model. It was trained on ImageNet with 299x299 pixel RGB images. Resizing our 28x28 grayscale images to this specific input size allows us to correctly utilize the pre-trained weights of the Inception-V3 base.
+3.	Optimizer: Adam
+o	Justification: Adam (Adaptive Moment Estimation) is a popular and generally recommended optimization algorithm for deep learning. It's an adaptive learning rate optimization algorithm that computes individual adaptive learning rates for different parameters. It combines the benefits of AdaGrad and RMSProp, making it efficient, robust to hyperparameter tuning, and typically converges quickly, especially on complex models and larger datasets.
+4.	Loss Function: Binary Crossentropy
+o	Justification: This is the standard and most appropriate loss function for binary classification problems where the output is a probability (0 to 1) via a sigmoid activation function (which we used in the final dense layer). It measures the dissimilarity between the true binary labels and the predicted probabilities.
+5.	Learning Rate: 0.001 (default for Adam)
+o	Justification: This is a commonly used default learning rate for the Adam optimizer and often serves as a good starting point. It represents a balance – not too large to cause oscillations or divergence, and not too small to make training excessively slow. For many tasks, the default Adam learning rate provides solid performance without extensive fine-tuning.
+6.	Epochs: 10 (maximum with Early Stopping)
+o	Justification: Setting a maximum number of epochs (like 10) ensures that training doesn't run indefinitely. However, the primary control mechanism here is EarlyStopping. The 10 epochs serve as an upper bound, but the model is expected to stop much earlier if val_loss doesn't improve, thus preventing overfitting and saving computational resources.
+7.	Batch Size: 32
+o	Justification: A batch size of 32 is a very common and generally good default choice in deep learning.
+	Memory Efficiency: It's small enough to fit into GPU memory for most typical setups.
+	Training Stability: Larger batches provide more stable gradient estimates but can lead to poorer generalization. Smaller batches introduce more noise but can help the model escape local minima and generalize better. 32 often strikes a good balance.
+	Computational Efficiency: It's often a good compromise between slow updates (large batch) and frequent, noisy updates (small batch).
+8.	Dropout Rate: 0.5 (in custom head)
+o	Justification: Dropout is a powerful regularization technique. A rate of 0.5 is a common starting point and a widely accepted heuristic. It means that during each training step, 50% of the neurons in that layer are randomly "dropped out" (their outputs are set to zero). This forces the remaining neurons to learn more robust features and prevents them from co-adapting too much, which significantly reduces overfitting.
+9.	Class Imbalance Handling: Class Weighting
+o	Justification: The PneumoniaMNIST dataset is imbalanced (more normal cases than pneumonia). Without intervention, the model would likely become biased towards the majority class, performing well on normal cases but poorly on pneumonia cases (high false negatives). Class weighting assigns a higher penalty to misclassifications of the minority class (pneumonia). This encourages the model to pay more attention to the minority class examples during training, improving its ability to correctly identify pneumonia cases.
+10.	Early Stopping Patience: 5 epochs
+o	Justification: This hyperparameter defines how many epochs the model will continue training without an improvement in the monitored metric (val_loss) before stopping. A patience of 5 is a reasonable value. It provides enough buffer to allow for small fluctuations in val_loss without stopping too prematurely, while still preventing prolonged training that would lead to significant overfitting.
+11.	Model Checkpointing:
+o	Justification: This isn't strictly a "hyperparameter" for model performance, but it's a critical part of the training workflow. It ensures that the model's weights corresponding to the best performance on the validation set (lowest val_loss) are saved to disk. This means even if training runs for many more epochs and starts to overfit, or if the training process is interrupted, you can always retrieve the best version of your model.
+
 
 ## Evaluation Metrics Justification
 For this binary classification task with a potential class imbalance (Pneumonia vs. Normal), the following metrics were chosen:
