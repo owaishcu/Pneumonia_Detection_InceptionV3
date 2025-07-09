@@ -17,29 +17,28 @@ This project leverages transfer learning with Google's Inception-V3 architecture
 4.  **Model Training:** Fine-tuning the Inception-V3 base with a custom dense classification head. Training was managed with Early Stopping and Model Checkpointing to save the best performing model based on validation loss.
 
 ## How to Reproduce
-1.  **Clone the repository:**
+  **Clone the repository:**
     ```bash
     git clone [https://github.com//Pneumonia_Detection_InceptionV3.git](https://github.com/owaishcu/Pneumonia_Detection_InceptionV3.git)
     cd Pneumonia_Detection_InceptionV3
     ```
-2.  **Set up Python Environment:**
+  **Set up Python Environment:**
     ```bash
     python -m venv venv
     source venv/bin/activate # On Windows: .\venv\Scripts\activate
     pip install -r requirements.txt
     ```
-3.  **Download Dataset:** 
 
 ## Hyper-parameter Choices
 * **Base Model:** Inception-V3 (pre-trained on ImageNet)
 * **Input Image Size:** 299x299x3
 * **Optimizer:** Adam
 * **Loss Function:** Binary Crossentropy
-* **Learning Rate:** (You used default Adam, or a schedule if you added it - specify if you tweaked it)
+* **Learning Rate:** 0.001 (default value for Adam)
 * **Epochs:** 10 (with Early Stopping patience of 5 on `val_loss`)
 * **Batch Size:** 32
-* **Dropout Rate:** 0.5 (in custom head)
-* **Regularization:** (e.g., L1/L2 if you added it to dense layers, or mention 'None' if not used beyond Dropout)
+* **Dropout Rate:** 0.5
+* **Regularization:** Dropout (rate=0.5). No L1/L2 regularization used.
 * **Class Imbalance Handling:** Class weighting based on training set distribution.
 
 ## Evaluation Metrics Justification
@@ -52,12 +51,7 @@ For this binary classification task with a potential class imbalance (Pneumonia 
 * **Balanced Accuracy:** The average of recall obtained on each class. It's a more appropriate metric than simple accuracy for imbalanced datasets, as it accounts for the unequal number of samples in each class.
 
 ## Results and Insights
-
-
-
-
-## Results and Insights
-
+**Results**
 Test Loss: 0.3168
 Test Accuracy (Keras): 0.8718
 Test AUC (Keras): 0.8555
@@ -65,3 +59,9 @@ Test Precision (Keras): 0.9564
 Test Recall (Keras): 0.9495
 F1-Score (scikit-learn): 0.9031
 Balanced Accuracy (scikit-learn): 0.8436
+**Insights:**
+* The model achieved a good balance between identifying positive cases (high Recall) and ensuring those positive predictions were correct (high Precision), as reflected in the F1-Score of 0.9031.
+* The Balanced Accuracy of 0.8436 is a more reliable indicator of overall performance than raw accuracy, given the dataset's imbalance.
+* The AUC score of 0.8555 further confirms the model's reasonable discriminative power.
+* Despite the small input image size (28x28) compared to ImageNet images (299x299), transfer learning with Inception-V3 proved effective.
+* The combination of data augmentation and class weighting likely contributed to the model's robust performance.
