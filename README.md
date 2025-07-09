@@ -7,7 +7,7 @@ Fine-tune a pre-trained Inception-V3 model to accurately distinguish between pne
 
 ## Dataset
 **Name:** PneumoniaMNIST
-**Source:** Available via MedMNIST. The dataset consists of grayscale images of size 28x28 pixels.
+**Source:** https://www.kaggle.com/datasets/rijulshr/pneumoniamnist/data 
 
 ## Approach Overview
 This project leverages transfer learning with Google's Inception-V3 architecture, pre-trained on ImageNet, for image classification. Key steps included:
@@ -28,7 +28,7 @@ This project leverages transfer learning with Google's Inception-V3 architecture
     source venv/bin/activate # On Windows: .\venv\Scripts\activate
     pip install -r requirements.txt
     ```
-3.  **Download Dataset:** Ensure `pneumoniamnist.npz` is available in your working directory. (You might need to manually download this from MedMNIST or another source if `kagglehub` is not used).
+3.  **Download Dataset:** 
 
 ## Hyper-parameter Choices
 * **Base Model:** Inception-V3 (pre-trained on ImageNet)
