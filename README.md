@@ -17,20 +17,18 @@ This project leverages transfer learning with Google's Inception-V3 architecture
 4.  **Model Training:** Fine-tuning the Inception-V3 base with a custom dense classification head. Training was managed with Early Stopping and Model Checkpointing to save the best performing model based on validation loss.
 
 ## How to Reproduce
-  **Clone the repository:**
+1.  **Clone the repository:**
     ```bash
-    git clone
-    [https://github.com//Pneumonia_Detection_InceptionV3.git](https://github.com/owaishcu/Pneumonia_Detection_InceptionV3.git)
-    
+    git clone [https://github.com/owaishcu/Pneumonia_Detection_InceptionV3.git](https://github.com/owaishcu/Pneumonia_Detection_InceptionV3.git)
     cd Pneumonia_Detection_InceptionV3
     ```
-    
-  **Set up Python Environment:**
+2.  **Set up Python Environment:**
     ```bash
     python -m venv venv
     source venv/bin/activate # On Windows: .\venv\Scripts\activate
     pip install -r requirements.txt
     ```
+
 
 ## Hyper-parameter Choices
 * **Base Model:** Inception-V3 (pre-trained on ImageNet)
